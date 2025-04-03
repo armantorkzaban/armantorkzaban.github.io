@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "War with Islamic State"
-category: general
+category: پیش‌نویس
 ---
 # جنگ با حکومت اسلامی 
 
