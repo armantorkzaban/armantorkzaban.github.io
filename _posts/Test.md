@@ -1,0 +1,1 @@
+test pages without structure
