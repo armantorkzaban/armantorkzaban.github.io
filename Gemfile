@@ -8,6 +8,7 @@ gem "html-proofer", "5.0.10"
 gem "nokogiri", "1.18.7"
 gem "pdf-reader", "2.14.1"
 gem "typhoeus", "1.4.1"
+gem "logger", "~> 1.6"
 # ...add other gems as needed...
 
 platforms :mingw, :x64_mingw, :mswin, :jruby do
