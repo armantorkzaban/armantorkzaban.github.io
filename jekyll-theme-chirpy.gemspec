@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# encoding: utf-8
 
 Gem::Specification.new do |spec|
   spec.name          = "jekyll-theme-chirpy"
@@ -10,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/cotes2020/jekyll-theme-chirpy"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0").select { |f|
+  spec.files         = `git ls-files -z`.force_encoding('UTF-8').split("\x0").select { |f|
     f.match(%r!^((_(includes|layouts|sass|(data\/(locales|origin)))|assets)\/|README|LICENSE)!i)
   }
 
