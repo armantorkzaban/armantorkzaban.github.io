@@ -25,3 +25,5 @@ package-lock.json
 _drafts
 
 assets/lib
+.copilotinstruction
+.DS_Store
