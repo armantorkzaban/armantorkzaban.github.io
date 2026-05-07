@@ -80,10 +80,10 @@ The primary purpose of such a consortium is the systematic **conversion of capit
 This model is committed to the **absolute agency of the people** and an inclusive democracy. It also envisions an economic dimension:
 
 
-| Mechanism | Purpose |
-|---|---|
+| Mechanism                  | Purpose                                      |
+|----------------------------|----------------------------------------------|
 | **"Social movement bank"** | Provide financial safety net for sustained action |
-| **Cooperative ownership** | Distribute economic power across the movement |
+| **Cooperative ownership**  | Distribute economic power across the movement |
 
 
 Together, these instruments support sustained strikes, turning episodic unrest into a **material disruption of the authoritarian economy**.
@@ -98,9 +98,12 @@ Together, these instruments support sustained strikes, turning episodic unrest i
 The current era of war and unrest terminates the effectiveness of performative social media actions and episodic reactive congregations. As Feldman argues, the diaspora must move toward an **"ensemble strategy"** that coordinates political, economic, and educational efforts.
 
 
-The proposed consortium remains steadfastly committed to the construction of this institutional initiative—an entity composed of both natural and legal members, dedicated to the absolute agency of the Iranian people. By integrating cryptographic infrastructure, and civic education  with principled pluralism in action the diaspora can finally move from being an *"object of fragmentation analysis"* to becoming a central **agent of democratic institution-building**.
+The proposed consortium remains steadfastly committed to the construction of this institutional initiative—an entity composed of both natural and legal members, dedicated to the absolute agency of the Iranian people. By integrating cryptographic infrastructure and civic education with principled pluralism in action, the diaspora can finally move from being an *"object of fragmentation analysis"* to becoming a central **agent of democratic institution-building**.
 
 
+---
 
 
+## References
 
+Feldman, Y. "The Dialectic of Solidarity: A Search for a Method in Iranian Studies." Paper presented at the Thirteenth Nordic Conference on Middle Eastern Studies: *A New World Order — A New Middle East?* University of Oslo, Norway, 25–27 September 2025. Version 6.
