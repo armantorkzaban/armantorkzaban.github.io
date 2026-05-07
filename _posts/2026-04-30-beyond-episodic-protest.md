@@ -80,10 +80,10 @@ The primary purpose of such a consortium is the systematic **conversion of capit
 This model is committed to the **absolute agency of the people** and an inclusive democracy. It also envisions an economic dimension:
 
 
-| Mechanism                  | Purpose                                      |
-|----------------------------|----------------------------------------------|
+| Mechanism                  | Purpose                                           |
+| -------------------------- | ------------------------------------------------- |
 | **"Social movement bank"** | Provide financial safety net for sustained action |
-| **Cooperative ownership**  | Distribute economic power across the movement |
+| **Cooperative ownership**  | Distribute economic power across the movement     |
 
 
 Together, these instruments support sustained strikes, turning episodic unrest into a **material disruption of the authoritarian economy**.
