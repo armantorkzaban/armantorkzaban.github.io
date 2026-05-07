@@ -5,8 +5,8 @@ category: general
 tags: [hugad, women-life-freedom, iran, product, design]
 ---
 
-![Hugād — ivory and black](/assets/img/01.effectsResult.png){: .shadow }
-_Hugād comes in two colours: ivory and black._
+![Hugād — jade green with gold botanical engravings](/assets/img/hu1.jpeg){: .shadow }
+_Hugād — jade green with gold botanical engravings._
 
 This is a product for women.
 
@@ -22,6 +22,9 @@ So we built a device with **no mechanical parts**. No motor, no eccentric weight
 
 Because there is nothing to spin or pump, the device is silent, wears out slowly, seals cleanly, and stops being a small appliance that happens to be intimate. It becomes something closer to what it should have been all along: an extension of a hand, or of a tongue.
 
+![Hugād — turquoise with gold geometric arabesque engravings](/assets/img/hu2.jpeg){: .shadow }
+_Hugād — turquoise with gold geometric arabesque engravings._
+
 ## Why this, why now, why for Iranian women
 
 Hugād — /HOGAAD/, *good fuck* in Pārsīg — is not a neutral product launched into a neutral market. It comes out of a specific moment and a specific history.
@@ -29,6 +32,9 @@ Hugād — /HOGAAD/, *good fuck* in Pārsīg — is not a neutral product launch
 Iranian civil society has spent about five decades under a regime that treats women's bodies as a site of state control. The hijab is the visible surface of a much deeper project: to sever people — and especially women — from their own nature, their own desire, their own language for desire. *Woman, Life, Freedom* is, among many other things, a refusal of that severance. It is the reclamation of the body as one's own.
 
 A product cannot carry a revolution. But a product can carry an argument, and it can put that argument on a shelf, in a drawer, in a hand. Building a non-penetrative, woman-centred **gād-abzār** is one such argument. It says: pleasure is not shameful, it is not male property, and the language for it does not have to be borrowed from a regime that denies it exists.
+
+![Hugād — black with gold desert scene engravings](/assets/img/hu3.jpeg){: .shadow }
+_Hugād — black with gold desert scene engravings._
 
 ## Where the product stands
 
