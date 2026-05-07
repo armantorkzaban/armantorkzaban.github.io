@@ -106,4 +106,4 @@ The proposed consortium remains steadfastly committed to the construction of thi
 
 ## References
 
-Feldman, Y. "The Dialectic of Solidarity: A Search for a Method in Iranian Studies." Paper presented at the Thirteenth Nordic Conference on Middle Eastern Studies: *A New World Order — A New Middle East?* University of Oslo, Norway, 25–27 September 2025. Version 6.
+Jonathan Michael Feldman, Stockholm University "The Dialectic of Solidarity: A Search for a Method in Iranian Studies." Paper presented at the Thirteenth Nordic Conference on Middle Eastern Studies: *A New World Order — A New Middle East?* University of Oslo, Norway, 25–27 September 2025. Version 6.
