@@ -8,6 +8,8 @@ category: general
 
 *In reply to Azam Bahrami, "Resilience by what measure? How the Iranian citizen and Iranian nature came to resemble each other."*
 
+*Source: Azam Bahrami, X post, 29 May 2026, [x.com/AzamBahrami/status/2060469489251267062](https://x.com/AzamBahrami/status/2060469489251267062?s=20).*
+
 Azam Bahrami is right, and her rightness is uncomfortable. "Resilience," when it becomes praise, switches off analysis. The honest test is not *can the pressure be endured?* but *after the pressure, is there a way back?* An aquifer pumped past its limit subsides and never refills, not even under heavy rain. A family spending down its savings to hold its standard of living looks resilient from the outside, but it is eating its reserve, and when the reserve is gone there is no return. That is not flexibility. It is crossing the line of no return while still appearing intact.
 
 I accept the diagnosis completely. So let me answer her real question (*do we still have the capacity to return, or are we only burning our reserves and calling it resistance?*) without flinching.
