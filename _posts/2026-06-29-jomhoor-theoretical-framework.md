@@ -2,6 +2,7 @@
 layout: post
 title: "Theoretical Frameworks and Narratives for Digital Democratic Infrastructure"
 category: general, Jomhoor
+mermaid: true
 ---
 ## Theory Map
 
