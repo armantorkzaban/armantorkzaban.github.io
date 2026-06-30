@@ -11,23 +11,23 @@ The diagram below shows how the seven theories relate to one another. Theories 1
 ```mermaid
 flowchart TB
     subgraph INFRA["Layer 1 — Infrastructure"]
-        T1["1. Infrastructure Before Events<br/>Build the pipes before the crisis"]
-        T2["2. Privacy as Democratic Design<br/>Verified without being visible"]
+        T1["1. Infrastructure before events; Build the pipes before the crisis"]
+        T2["2. Privacy as democratic design; Verified without being visible"]
     end
 
     subgraph PROCESS["Layer 2 — Process"]
-        T3["3. Deliberation Precedes Decision<br/>Opinions are input, not output"]
-        T4["4. Differentiated Access, Equal Standing<br/>Route in does not equal standing inside"]
+        T3["3. Deliberation precedes decision; Opinions are input, not output"]
+        T4["4. Differentiated access, equal standing; Route in ≠ standing inside"]
     end
 
     subgraph CAPACITY["Layer 3 — Capacity"]
-        T5["5. Democracy as Rehearsal<br/>Building democratic muscle memory"]
-        T6["6. Proof of Personhood as Legitimacy<br/>Sybil-resistance as legitimacy"]
+        T5["5. Democracy as rehearsal; Building democratic muscle memory"]
+        T6["6. Proof of personhood as legitimacy; Sybil-resistance as legitimacy"]
     end
 
-    CORE["CORE: Trustless Democracy<br/>Privacy and integrity as co-equal design requirements"]
+    CORE["CORE: Trustless democracy; Privacy + integrity as co-equal design requirements"]
 
-    T7["7. Political Community Without Territory<br/>Verified political community without territory"]
+    T7["7. Political community without territory; Verified political community without territory"]
 
     T1 --> CORE
     T2 --> CORE
