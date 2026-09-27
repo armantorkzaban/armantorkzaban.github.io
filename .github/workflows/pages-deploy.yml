@@ -45,6 +45,18 @@ jobs:
           ruby-version: 3.3
           bundler-cache: true
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install librsvg & Fonts
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin fonts-noto-core fonts-noto-extra
+        continue-on-error: true
+
+      - name: Generate OG Images
+        run: python3 tools/generate-og.py
+
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
         env:

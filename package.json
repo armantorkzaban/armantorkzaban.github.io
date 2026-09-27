@@ -15,6 +15,8 @@
   "homepage": "https://github.com/cotes2020/jekyll-theme-chirpy/",
   "scripts": {
     "build": "bundle install && your-build-command",
+    "og": "python3 tools/generate-og.py",
+    "og:force": "python3 tools/generate-og.py --force",
     "build:css": "node purgecss.js",
     "build:js": "rollup -c --bundleConfigAsCjs --environment BUILD:production",
     "watch:js": "rollup -c --bundleConfigAsCjs -w",

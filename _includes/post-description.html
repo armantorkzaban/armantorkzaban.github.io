@@ -18,6 +18,16 @@
     {% assign content = content | replace: '</td><td class="rouge-code">', '</td> --><td class="rouge-code">' %}
   {% endif %}
 
+  {% if content contains '<audio' and content contains '</audio>' %}
+    {% assign pre_audio = content | split: '<audio' | first %}
+    {% assign post_audio = content | split: '</audio>' | last %}
+    {% assign content = pre_audio | append: post_audio %}
+  {% endif %}
+
+  {% assign content = content | remove: '&#9654; گوش دادن به این مقاله' | remove: '▶ گوش دادن به این مقاله' | remove: 'گوش دادن به این مقاله' %}
+  {% assign content = content | remove: '&#9654; Listen to this article' | remove: '▶ Listen to this article' | remove: 'Listen to this article' %}
+  {% assign content = content | remove: '&#9654;' | remove: '▶' %}
+
   {{- content | markdownify | strip_html | newline_to_br | replace: '<br />', ' ' | strip_newlines -}}
 {%- endif -%}
 {%- endcapture -%}
