@@ -2,6 +2,20 @@
 # frozen_string_literal: true
 
 require 'cgi'
+require 'addressable/uri'
+
+# Monkey-patch Jekyll::URL.unescape_path to prevent Encoding::UndefinedConversionError
+# when static file paths contain UTF-8 non-ASCII characters on Linux runners without UTF-8 locale.
+module Jekyll
+  class URL
+    def self.unescape_path(path)
+      path = path.dup.force_encoding('utf-8')
+      return path unless path.include?('%')
+
+      Addressable::URI.unencode(path)
+    end
+  end
+end
 
 #
 # Hook to automatically attach generated OG preview images and excerpts to Jekyll posts.
@@ -9,8 +23,8 @@ require 'cgi'
 # duplicate header banners on post articles (preview_only: true).
 #
 
-Jekyll::Hooks.register :posts, :post_init do |post|
-  slug = post.data['slug'] || post.slug
+Jekyll::Hooks.register :posts, :pre_render do |post, payload|
+  slug = post.data['slug'] || (post.respond_to?(:slug) ? post.slug : nil) || (post.respond_to?(:basename_without_ext) ? post.basename_without_ext.sub(/^\d{4}-\d{2}-\d{2}-/, '') : File.basename(post.relative_path, ".*"))
 
   # 1. Attach OG preview image
   if post.data['image']
