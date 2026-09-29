@@ -1,5 +1,5 @@
-<!-- English Ivy (Hedera helix) Halftone Botanical Finial -->
-<!-- Self-contained include: 30% subtlety, motion ON, no mouseover glow, full uncropped framing -->
+<!-- Botanical Halftone Finial: English Ivy, Persimmon & Grapes -->
+<!-- Self-contained include: 30% subtlety, motion ON, no mouseover glow, full uncropped framing, randomized botanical specimens -->
 <style>
   #tail-wrapper {
     position: relative !important;
@@ -59,21 +59,32 @@
 
   const TAU = Math.PI * 2;
   const BUCKETS = 20;
+  const SPECIMENS = ['ivy', 'persimmon', 'grapes', 'combined'];
+
+  function pickSpecimen() {
+    try {
+      const hash = (window.location.hash || '').replace('#', '').toLowerCase();
+      if (SPECIMENS.includes(hash)) {
+        return hash;
+      }
+    } catch (_) {}
+    return SPECIMENS[Math.floor(Math.random() * SPECIMENS.length)];
+  }
 
   // 13-point botanical polar spline anchors for Hedera helix
   const IVY_ANCHORS = [
-    { a: 0, r: 1.0 },     // Apex tip
+    { a: 0, r: 1.0 },
     { a: 22, r: 0.88 },
-    { a: 38, r: 0.58 },   // Sinus 1
-    { a: 54, r: 0.84 },   // Lateral lobe tip
+    { a: 38, r: 0.58 },
+    { a: 54, r: 0.84 },
     { a: 70, r: 0.64 },
-    { a: 86, r: 0.40 },   // Sinus 2
+    { a: 86, r: 0.40 },
     { a: 102, r: 0.58 },
-    { a: 116, r: 0.68 },  // Basal lobe tip
+    { a: 116, r: 0.68 },
     { a: 135, r: 0.46 },
     { a: 155, r: 0.26 },
-    { a: 172, r: 0.08 },  // Cordate cleft
-    { a: 180, r: 0.01 }   // Petiole insertion
+    { a: 172, r: 0.08 },
+    { a: 180, r: 0.01 }
   ];
 
   function getIvyRadius(deg, seed) {
@@ -146,17 +157,18 @@
     }
   }
 
-  class IvyHalftoneEngine {
+  class BotanicalHalftoneEngine {
     constructor(canvas) {
       this.canvas = canvas;
       this.ctx = canvas.getContext('2d', { alpha: true });
-      this.grid = 5;
+      this.grid = 2.6; // High dot density (double+ original dot count)
       this.w = 0;
       this.h = 0;
       this.dots = [];
       this.ramps = [];
       this.visible = false;
       this.last = 0;
+      this.specimen = pickSpecimen();
       this.motionReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       this.theme();
@@ -171,21 +183,73 @@
 
     theme() {
       const dark = this.isDarkMode();
-      const paletteHex = dark
-        ? [
-            ['#2f8a63', '#5cc08e', '#4fb7be', '#2f8a63'],
-            ['#a6e3bf', '#c3cfae', '#5cc08e'],
-            ['#5cc08e', '#a6e3bf', '#c3cfae'],
-            ['#0e0e18', '#7c80f0', '#a895ff', '#0e0e18'],
-            ['#a7b86f', '#d39a6a', '#e0b27a']
-          ]
-        : [
-            ['#1d5e47', '#2f8a63', '#1f7c83', '#1d5e47'],
-            ['#74bf93', '#8e9f78', '#2f8a63'],
-            ['#2f8a63', '#74bf93', '#8e9f78'],
-            ['#17162b', '#3b3fb6', '#6c58c9', '#17162b'],
-            ['#5a6a2c', '#7a4a2b', '#c29058']
-          ];
+      let paletteHex;
+
+      if (this.specimen === 'ivy') {
+        paletteHex = dark
+          ? [
+              ['#2f8a63', '#5cc08e', '#4fb7be', '#2f8a63'], // 0: Leaves
+              ['#a6e3bf', '#c3cfae', '#5cc08e'],           // 1: Veins / umbel disc
+              ['#5cc08e', '#a6e3bf', '#c3cfae'],           // 2: Young leaves
+              ['#0e0e18', '#7c80f0', '#a895ff', '#0e0e18'], // 3: Dark berries
+              ['#a7b86f', '#d39a6a', '#e0b27a']            // 4: Stems & rootlets
+            ]
+          : [
+              ['#1d5e47', '#2f8a63', '#1f7c83', '#1d5e47'],
+              ['#74bf93', '#8e9f78', '#2f8a63'],
+              ['#2f8a63', '#74bf93', '#8e9f78'],
+              ['#17162b', '#3b3fb6', '#6c58c9', '#17162b'],
+              ['#5a6a2c', '#7a4a2b', '#c29058']
+            ];
+      } else if (this.specimen === 'persimmon') {
+        paletteHex = dark
+          ? [
+              ['#e06828', '#f28e2b', '#e85c26', '#b83b1b'], // 0: Fruit body
+              ['#5c7444', '#829d61', '#475d33', '#687e4d'], // 1: Calyx sepals
+              ['#8d6545', '#ad835f', '#66452a', '#7d5939'], // 2: Woody branch
+              ['#c65d2f', '#de8b32', '#72833a', '#ad5224'], // 3: Autumn leaves
+              ['#f5b558', '#ffd485', '#d49042']            // 4: Leaf veins
+            ]
+          : [
+              ['#d35400', '#e67e22', '#c0392b', '#962d18'],
+              ['#4a6136', '#6a864d', '#334723', '#52693b'],
+              ['#6d4e33', '#876240', '#4a3320', '#5e4029'],
+              ['#9e411b', '#bb681d', '#54632c', '#853412'],
+              ['#dca146', '#f2bf6b', '#b87c2b']
+            ];
+      } else if (this.specimen === 'grapes') {
+        paletteHex = dark
+          ? [
+              ['#4a3f78', '#6b5ba6', '#332959', '#8f7ed4'], // 0: Ripe grapes
+              ['#3b8a5b', '#5ec284', '#286b43', '#8ce0a9'], // 1: Vitis leaf
+              ['#a4e3bc', '#b9a9e8', '#645498'],           // 2: Veins & bloom highlight
+              ['#946e48', '#b58e63', '#684a2d', '#7d5939']  // 3: Woody cane & tendrils
+            ]
+          : [
+              ['#32285e', '#4c3f87', '#6c5ba8', '#211a42'],
+              ['#25663f', '#3c935d', '#1b4a2d', '#5cb380'],
+              ['#6eb88d', '#8674b8', '#4b3c78'],
+              ['#715031', '#8f6843', '#4e341d', '#5a3d24']
+            ];
+      } else {
+        paletteHex = dark
+          ? [
+              ['#2f8a63', '#5cc08e', '#4fb7be', '#2f8a63'], // 0: Ivy leaves
+              ['#e06828', '#f28e2b', '#e85c26', '#b83b1b'], // 1: Persimmon fruit
+              ['#4a3f78', '#6b5ba6', '#332959', '#8f7ed4'], // 2: Grape berries
+              ['#5c7444', '#829d61', '#475d33'],           // 3: Calyx & young leaves
+              ['#8d6545', '#ad835f', '#66452a'],           // 4: Stems, branches & tendrils
+              ['#a6e3bf', '#f5b558', '#b9a9e8']            // 5: Veins & highlights
+            ]
+          : [
+              ['#1d5e47', '#2f8a63', '#1f7c83', '#1d5e47'],
+              ['#d35400', '#e67e22', '#c0392b', '#962d18'],
+              ['#32285e', '#4c3f87', '#6c5ba8', '#211a42'],
+              ['#4a6136', '#6a864d', '#334723'],
+              ['#6d4e33', '#876240', '#4a3320'],
+              ['#74bf93', '#dca146', '#8674b8']
+            ];
+      }
 
       this.ramps = paletteHex.map(function (hexStops) {
         const stops = hexStops.map(parseHex);
@@ -210,21 +274,36 @@
     }
 
     build() {
-      const rand = rng(99);
-      this.dots = [];
       const w = this.w;
       const h = this.h;
       if (!w || !h) return;
 
-      const padX = Math.max(28, w * 0.05);
-      const padY = Math.max(38, h * 0.16);
+      const padX = Math.max(30, w * 0.05);
+      const padY = Math.max(36, h * 0.16);
       const safeW = w - 2 * padX;
       const safeH = h - 2 * padY;
+      const grid = this.grid;
+      const dots = [];
 
+      if (this.specimen === 'ivy') {
+        this.buildIvy(w, h, padX, padY, safeW, safeH, grid, dots);
+      } else if (this.specimen === 'persimmon') {
+        this.buildPersimmon(w, h, padX, padY, safeW, safeH, grid, dots);
+      } else if (this.specimen === 'grapes') {
+        this.buildGrapes(w, h, padX, padY, safeW, safeH, grid, dots);
+      } else {
+        this.buildCombined(w, h, padX, padY, safeW, safeH, grid, dots);
+      }
+
+      this.dots = dots;
+    }
+
+    buildIvy(w, h, padX, padY, safeW, safeH, grid, dots) {
+      const rand = rng(99);
       const cy = h * 0.50;
       const P0 = [padX + safeW * 0.03, cy + safeH * 0.07];
-      const P1 = [padX + safeW * 0.35, cy - safeH * 0.20];
-      const P2 = [padX + safeW * 0.65, cy + safeH * 0.20];
+      const P1 = [padX + safeW * 0.35, cy - safeH * 0.16];
+      const P2 = [padX + safeW * 0.65, cy + safeH * 0.16];
       const P3 = [padX + safeW * 0.97, cy - safeH * 0.06];
 
       function bezier(t) {
@@ -243,7 +322,7 @@
       }
 
       const stemSegments = Array.from({ length: 180 }, function (_, i) { return bezier(i / 179); });
-      const S = Math.min(safeW * 0.18, safeH * 0.48);
+      const S = Math.min(safeW * 0.18, safeH * 0.44);
 
       const leafSpecs = [
         { t: 0.14, side: -1, scale: 0.88 * S, young: false, angleOff: -0.22, pitch: 0.92, seed: 1 },
@@ -292,8 +371,6 @@
         return { x: pt[0] - tan[1] * 0.02 * S, y: pt[1] + tan[0] * 0.02 * S };
       });
 
-      const grid = this.grid;
-      const self = this;
       hexGrid(w, h, grid, function (px, py) {
         const k = rand();
         const p = px * 0.012 + py * 0.008;
@@ -307,20 +384,20 @@
             const spec = Math.hypot(u + 0.35, v + 0.35);
             const disc = Math.hypot(u - 0.22, v - 0.22);
             if (disc < 0.22) {
-              self.dots.push({ x: px, y: py, r: (grid / 2) * 0.38, g: 1, p: p, k: k });
+              dots.push({ x: px, y: py, r: (grid / 2) * 0.38, g: 1, p: p, k: k });
               return;
             }
             const rad = (grid / 2) * (spec < 0.24 ? 0.30 : 0.86) * (0.92 + k * 0.16);
-            self.dots.push({ x: px, y: py, r: rad, g: 3, p: p, k: k });
+            dots.push({ x: px, y: py, r: rad, g: 3, p: p, k: k });
             return;
           }
           if (distToSegment(px, py, peduncleEnd[0], peduncleEnd[1], b.x, b.y) < grid * 0.30) {
-            self.dots.push({ x: px, y: py, r: grid * 0.20, g: 4, p: p, k: k });
+            dots.push({ x: px, y: py, r: grid * 0.20, g: 4, p: p, k: k });
             return;
           }
         }
         if (distToSegment(px, py, ptU[0], ptU[1], peduncleEnd[0], peduncleEnd[1]) < grid * 0.40) {
-          self.dots.push({ x: px, y: py, r: grid * 0.28, g: 4, p: p, k: k });
+          dots.push({ x: px, y: py, r: grid * 0.28, g: 4, p: p, k: k });
           return;
         }
 
@@ -351,19 +428,19 @@
             const isPrimaryVein = (midribD < 0.028 && lx < 0.95) || lat1D < 0.024 || lat2D < 0.024 || bas1D < 0.022 || bas2D < 0.022;
 
             if (isPrimaryVein || isSecVein) {
-              self.dots.push({ x: px, y: py, r: (grid / 2) * 0.38, g: 1, p: p, k: k });
+              dots.push({ x: px, y: py, r: (grid / 2) * 0.38, g: 1, p: p, k: k });
               return;
             }
 
             const fBlade = dist / bladeR;
             const shade = 0.45 + 0.55 * (1 - Math.pow(fBlade, 1.3));
             const rad = (grid / 2) * (0.48 + 0.48 * shade) * (0.92 + k * 0.16);
-            self.dots.push({ x: px, y: py, r: rad, g: leaf.young ? 2 : 0, p: p, k: k });
+            dots.push({ x: px, y: py, r: rad, g: leaf.young ? 2 : 0, p: p, k: k });
             return;
           }
 
           if (distToSegment(px, py, leaf.stemBase[0], leaf.stemBase[1], leaf.leafBase[0], leaf.leafBase[1]) < grid * 0.36) {
-            self.dots.push({ x: px, y: py, r: grid * 0.24, g: 4, p: p, k: k });
+            dots.push({ x: px, y: py, r: grid * 0.24, g: 4, p: p, k: k });
             return;
           }
         }
@@ -371,7 +448,7 @@
         for (let rk = 0; rk < rootlets.length; rk++) {
           const root = rootlets[rk];
           if (Math.hypot(px - root.x, py - root.y) < grid * 0.75) {
-            self.dots.push({ x: px, y: py, r: grid * 0.20, g: 4, p: p, k: k });
+            dots.push({ x: px, y: py, r: grid * 0.20, g: 4, p: p, k: k });
             return;
           }
         }
@@ -387,7 +464,564 @@
         }
         const stemThick = grid * (0.42 - 0.18 * closestT);
         if (minD < stemThick) {
-          self.dots.push({ x: px, y: py, r: grid * (0.34 - 0.10 * closestT), g: 4, p: p, k: k });
+          dots.push({ x: px, y: py, r: grid * (0.34 - 0.10 * closestT), g: 4, p: p, k: k });
+        }
+      });
+    }
+
+    buildPersimmon(w, h, padX, padY, safeW, safeH, grid, dots) {
+      const rand = rng(108);
+      const S = Math.min(safeW * 0.32, safeH * 0.90);
+
+      const P0 = [padX + safeW * 0.04, padY + safeH * 0.22];
+      const P1 = [padX + safeW * 0.48, padY + safeH * 0.14];
+      const P2 = [padX + safeW * 0.96, padY + safeH * 0.26];
+
+      function branchPt(t) {
+        const u = 1 - t;
+        return [
+          u*u*P0[0] + 2*u*t*P1[0] + t*t*P2[0],
+          u*u*P0[1] + 2*u*t*P1[1] + t*t*P2[1]
+        ];
+      }
+      const branchSegments = Array.from({ length: 140 }, function (_, i) { return branchPt(i / 139); });
+
+      const f1cx = padX + safeW * 0.62;
+      const f1cy = padY + safeH * 0.58;
+      const f1Rx = 0.32 * S;
+      const f1Ry = 0.27 * S;
+      const f1CalyxBase = [f1cx, f1cy - f1Ry * 0.85];
+      const f1BranchPt = branchPt(0.62);
+
+      const f2cx = padX + safeW * 0.32;
+      const f2cy = padY + safeH * 0.62;
+      const f2Rx = 0.26 * S;
+      const f2Ry = 0.22 * S;
+      const f2CalyxBase = [f2cx, f2cy - f2Ry * 0.85];
+      const f2BranchPt = branchPt(0.33);
+
+      const fruits = [
+        { cx: f1cx, cy: f1cy, rx: f1Rx, ry: f1Ry, calyxBase: f1CalyxBase, calyxLen: 0.13 * S, branchPt: f1BranchPt },
+        { cx: f2cx, cy: f2cy, rx: f2Rx, ry: f2Ry, calyxBase: f2CalyxBase, calyxLen: 0.11 * S, branchPt: f2BranchPt }
+      ];
+
+      const calyxAngles = [-0.85 * Math.PI, -0.22 * Math.PI, 0.22 * Math.PI, 0.85 * Math.PI];
+
+      const leafSpecs = [
+        { t: 0.12, angle: 2.35, scale: 0.38 * S },
+        { t: 0.24, angle: 0.85, scale: 0.32 * S },
+        { t: 0.48, angle: -0.45, scale: 0.36 * S },
+        { t: 0.82, angle: 0.70, scale: 0.40 * S },
+        { t: 0.92, angle: -0.60, scale: 0.30 * S }
+      ];
+
+      const pLeaves = leafSpecs.map(function (ls) {
+        const base = branchPt(ls.t);
+        return {
+          base: base,
+          scale: ls.scale,
+          cos: Math.cos(ls.angle),
+          sin: Math.sin(ls.angle)
+        };
+      });
+
+      const light = [-0.45, -0.6, 0.65];
+      const lightLen = Math.hypot(light[0], light[1], light[2]);
+
+      hexGrid(w, h, grid, function (px, py) {
+        const k = rand();
+        const p = px * 0.011 + py * 0.007;
+
+        for (let f = 0; f < fruits.length; f++) {
+          const fr = fruits[f];
+          for (let i = 0; i < 4; i++) {
+            const a = calyxAngles[i];
+            const tipX = fr.calyxBase[0] + Math.cos(a) * fr.calyxLen;
+            const tipY = fr.calyxBase[1] + Math.sin(a) * fr.calyxLen * 0.72;
+            const vx = tipX - fr.calyxBase[0];
+            const vy = tipY - fr.calyxBase[1];
+            const vlen2 = vx*vx + vy*vy;
+            const t = Math.max(0, Math.min(1, ((px - fr.calyxBase[0])*vx + (py - fr.calyxBase[1])*vy) / vlen2));
+            const normalDist = Math.hypot(px - (fr.calyxBase[0] + vx*t), py - (fr.calyxBase[1] + vy*t));
+            const lobeWidth = (0.050 * S) * Math.sin(Math.PI * t);
+            if (normalDist < lobeWidth && t > 0.06) {
+              const rad = (grid / 2) * (0.60 + 0.35 * (1 - t)) * (0.92 + k * 0.16);
+              dots.push({ x: px, y: py, r: rad, g: 1, p: p, k: k });
+              return;
+            }
+          }
+        }
+
+        for (let f = 0; f < fruits.length; f++) {
+          const fr = fruits[f];
+          const u = (px - fr.cx) / fr.rx;
+          const v = (py - fr.cy) / fr.ry;
+          const angle = Math.atan2(v, u);
+          const cleft = 0.065 * Math.cos(4 * angle);
+          const d4 = Math.pow(u, 4) + Math.pow(v, 4) + cleft;
+
+          if (d4 < 1.05) {
+            const d2 = Math.min(0.99, u*u + v*v);
+            const nz = Math.sqrt(1 - d2);
+            const nx = u;
+            const ny = v;
+            const diff = Math.max(0, (nx * light[0] + ny * light[1] + nz * light[2]) / lightLen);
+            const spec = Math.pow(diff, 6);
+            const tone = 0.42 + 0.50 * (1 - diff) + 0.28 * (1 - spec);
+            const r = (grid / 2) * Math.max(0.30, Math.min(1.0, tone)) * (0.92 + k * 0.16);
+            dots.push({ x: px, y: py, r: r, g: 0, p: p, k: k });
+            return;
+          }
+
+          const dStem = distToSegment(px, py, fr.branchPt[0], fr.branchPt[1], fr.calyxBase[0], fr.calyxBase[1]);
+          if (dStem < grid * 0.52 && py < fr.calyxBase[1] + grid * 0.4) {
+            dots.push({ x: px, y: py, r: grid * 0.32, g: 2, p: p, k: k });
+            return;
+          }
+        }
+
+        for (let j = 0; j < pLeaves.length; j++) {
+          const pl = pLeaves[j];
+          const rx = px - pl.base[0];
+          const ry = py - pl.base[1];
+          const lx = (rx * pl.cos + ry * pl.sin) / pl.scale;
+          const ly = (-rx * pl.sin + ry * pl.cos) / (pl.scale * 0.55);
+
+          const lDist = Math.hypot(lx, ly);
+          if (lDist < 1.0 && lx > 0.05) {
+            const bladeW = Math.sin(Math.PI * Math.min(1, plx)) * 0.54;
+            if (Math.abs(ly) < bladeW) {
+              const midrib = Math.abs(ly) < 0.04;
+              const secPhase = ((lx + 0.02) % 0.18) / 0.18;
+              const secVein = Math.abs(secPhase - 0.5) < 0.09 && Math.abs(ly) < bladeW * 0.85;
+              if (midrib || secVein) {
+                dots.push({ x: px, y: py, r: (grid / 2) * 0.38, g: 4, p: p, k: k });
+                return;
+              }
+              const shade = 0.50 + 0.50 * (1 - Math.abs(ly) / bladeW);
+              const rad = (grid / 2) * (0.45 + 0.50 * shade) * (0.92 + k * 0.16);
+              dots.push({ x: px, y: py, r: rad, g: 3, p: p, k: k });
+              return;
+            }
+          }
+          if (distToSegment(px, py, pl.base[0], pl.base[1], pl.base[0] + pl.cos * pl.scale * 0.1, pl.base[1] + pl.sin * pl.scale * 0.1) < grid * 0.35) {
+            dots.push({ x: px, y: py, r: grid * 0.25, g: 2, p: p, k: k });
+            return;
+          }
+        }
+
+        let minD = Infinity;
+        for (let si = 0; si < branchSegments.length - 1; si++) {
+          const sd = distToSegment(px, py, branchSegments[si][0], branchSegments[si][1], branchSegments[si + 1][0], branchSegments[si + 1][1]);
+          if (sd < minD) minD = sd;
+        }
+        if (minD < grid * 0.65) {
+          dots.push({ x: px, y: py, r: grid * 0.36, g: 2, p: p, k: k });
+        }
+      });
+    }
+
+    buildGrapes(w, h, padX, padY, safeW, safeH, grid, dots) {
+      const rand = rng(108);
+      const S = Math.min(safeW * 0.28, safeH * 0.95);
+
+      const caneP0 = [padX + safeW * 0.05, padY + safeH * 0.18];
+      const caneP1 = [padX + safeW * 0.50, padY + safeH * 0.12];
+      const caneP2 = [padX + safeW * 0.95, padY + safeH * 0.22];
+      function canePt(t) {
+        const u = 1 - t;
+        return [
+          u*u*caneP0[0] + 2*u*t*caneP1[0] + t*t*caneP2[0],
+          u*u*caneP0[1] + 2*u*t*caneP1[1] + t*t*caneP2[1]
+        ];
+      }
+      const caneSegments = Array.from({ length: 120 }, function (_, i) { return canePt(i / 119); });
+
+      const c1x = padX + safeW * 0.40;
+      const c1y = padY + safeH * 0.52;
+      const grape1R = 0.046 * S;
+      const tiers1 = [
+        { y: -0.22, count: 6, spread: 0.22 },
+        { y: -0.14, count: 6, spread: 0.20 },
+        { y: -0.06, count: 5, spread: 0.17 },
+        { y:  0.02, count: 5, spread: 0.14 },
+        { y:  0.10, count: 4, spread: 0.11 },
+        { y:  0.18, count: 3, spread: 0.08 },
+        { y:  0.25, count: 2, spread: 0.05 },
+        { y:  0.32, count: 1, spread: 0.01 }
+      ];
+
+      const c2x = padX + safeW * 0.72;
+      const c2y = padY + safeH * 0.56;
+      const grape2R = 0.040 * S;
+      const tiers2 = [
+        { y: -0.18, count: 5, spread: 0.18 },
+        { y: -0.10, count: 4, spread: 0.15 },
+        { y: -0.02, count: 4, spread: 0.12 },
+        { y:  0.06, count: 3, spread: 0.09 },
+        { y:  0.14, count: 2, spread: 0.06 },
+        { y:  0.21, count: 1, spread: 0.02 }
+      ];
+
+      const grapes = [];
+      let gid = 0;
+      tiers1.forEach(function (tier, ti) {
+        for (let i = 0; i < tier.count; i++) {
+          const frac = tier.count > 1 ? (i / (tier.count - 1) - 0.5) : 0;
+          const gx = c1x + frac * tier.spread * S + (rand() - 0.5) * 0.025 * S;
+          const gy = c1y + tier.y * S + (rand() - 0.5) * 0.02 * S;
+          const gz = (rand() * 0.5) + (ti * 0.1);
+          grapes.push({ x: gx, y: gy, r: grape1R * (0.94 + rand() * 0.12), z: gz, id: gid++ });
+        }
+      });
+      tiers2.forEach(function (tier, ti) {
+        for (let i = 0; i < tier.count; i++) {
+          const frac = tier.count > 1 ? (i / (tier.count - 1) - 0.5) : 0;
+          const gx = c2x + frac * tier.spread * S + (rand() - 0.5) * 0.025 * S;
+          const gy = c2y + tier.y * S + (rand() - 0.5) * 0.02 * S;
+          const gz = (rand() * 0.5) + (ti * 0.1);
+          grapes.push({ x: gx, y: gy, r: grape2R * (0.94 + rand() * 0.12), z: gz, id: gid++ });
+        }
+      });
+      grapes.sort(function (a, b) { return b.z - a.z; });
+
+      const tendril1Points = [];
+      const tendril1Origin = [padX + safeW * 0.20, padY + safeH * 0.28];
+      for (let t = 0; t <= 1; t += 0.008) {
+        const theta = t * 3.8 * Math.PI;
+        const rad = (0.02 + 0.10 * t) * S;
+        tendril1Points.push([
+          tendril1Origin[0] + rad * Math.cos(theta),
+          tendril1Origin[1] + t * 0.12 * S + rad * Math.sin(theta)
+        ]);
+      }
+
+      const tendril2Points = [];
+      const tendril2Origin = [padX + safeW * 0.88, padY + safeH * 0.28];
+      for (let t = 0; t <= 1; t += 0.008) {
+        const theta = -t * 3.2 * Math.PI;
+        const rad = (0.015 + 0.08 * t) * S;
+        tendril2Points.push([
+          tendril2Origin[0] - rad * Math.cos(theta),
+          tendril2Origin[1] + t * 0.10 * S + rad * Math.sin(theta)
+        ]);
+      }
+
+      const vLeaves = [
+        { center: [padX + safeW * 0.18, padY + safeH * 0.44], r: 0.28 * S },
+        { center: [padX + safeW * 0.54, padY + safeH * 0.36], r: 0.25 * S },
+        { center: [padX + safeW * 0.86, padY + safeH * 0.46], r: 0.22 * S }
+      ];
+
+      const light = [-0.5, -0.6, 0.62];
+      const lightLen = Math.hypot(light[0], light[1], light[2]);
+
+      hexGrid(w, h, grid, function (px, py) {
+        const k = rand();
+        const p = px * 0.011 + py * 0.007;
+
+        for (let i = 0; i < grapes.length; i++) {
+          const g = grapes[i];
+          const dx = px - g.x;
+          const dy = py - g.y;
+          const d2 = (dx*dx + dy*dy) / (g.r * g.r);
+          if (d2 < 1.0) {
+            const nz = Math.sqrt(1 - d2);
+            const nx = dx / g.r;
+            const ny = dy / g.r;
+            const diff = Math.max(0, (nx * light[0] + ny * light[1] + nz * light[2]) / lightLen);
+            const spec = Math.pow(diff, 7);
+            const rad = (grid / 2) * (0.88 - 0.50 * spec) * (0.85 + 0.25 * diff);
+            dots.push({ x: px, y: py, r: rad, g: 0, p: p, k: k });
+            return;
+          }
+        }
+
+        for (let l = 0; l < vLeaves.length; l++) {
+          const vl = vLeaves[l];
+          const ldx = px - vl.center[0];
+          const ldy = py - vl.center[1];
+          const lDist = Math.hypot(ldx, ldy);
+          if (lDist < vl.r * 1.35) {
+            const lAngle = Math.atan2(ldy, ldx);
+            const lobe = 1 + 0.24 * Math.cos(5 * lAngle) + 0.10 * Math.cos(10 * lAngle) - 0.12 * Math.cos(lAngle);
+            if (lDist < vl.r * lobe) {
+              const isVein = Math.abs(Math.sin(2.5 * lAngle)) < 0.12;
+              if (isVein) {
+                dots.push({ x: px, y: py, r: (grid / 2) * 0.35, g: 2, p: p, k: k });
+                return;
+              }
+              const shade = 0.50 + 0.50 * (1 - lDist / (vl.r * lobe));
+              const rad = (grid / 2) * (0.45 + 0.48 * shade) * (0.92 + k * 0.16);
+              dots.push({ x: px, y: py, r: rad, g: 1, p: p, k: k });
+              return;
+            }
+          }
+        }
+
+        for (let i = 0; i < tendril1Points.length - 1; i++) {
+          const tp = tendril1Points[i];
+          if (Math.hypot(px - tp[0], py - tp[1]) < grid * 0.40) {
+            dots.push({ x: px, y: py, r: grid * 0.25, g: 3, p: p, k: k });
+            return;
+          }
+        }
+        for (let i = 0; i < tendril2Points.length - 1; i++) {
+          const tp = tendril2Points[i];
+          if (Math.hypot(px - tp[0], py - tp[1]) < grid * 0.40) {
+            dots.push({ x: px, y: py, r: grid * 0.25, g: 3, p: p, k: k });
+            return;
+          }
+        }
+
+        let minD = Infinity;
+        for (let si = 0; si < caneSegments.length - 1; si++) {
+          const sd = distToSegment(px, py, caneSegments[si][0], caneSegments[si][1], caneSegments[si + 1][0], caneSegments[si + 1][1]);
+          if (sd < minD) minD = sd;
+        }
+        if (minD < grid * 0.60) {
+          dots.push({ x: px, y: py, r: grid * 0.35, g: 3, p: p, k: k });
+        }
+      });
+    }
+
+    buildCombined(w, h, padX, padY, safeW, safeH, grid, dots) {
+      const rand = rng(777);
+      const S = Math.min(safeW * 0.18, safeH * 0.44);
+
+      const cy = padY + safeH * 0.50;
+      const P0 = [padX + safeW * 0.04, cy + safeH * 0.06];
+      const P1 = [padX + safeW * 0.35, cy - safeH * 0.14];
+      const P2 = [padX + safeW * 0.65, cy + safeH * 0.14];
+      const P3 = [padX + safeW * 0.96, cy - safeH * 0.05];
+
+      function bezier(t) {
+        const u = 1 - t;
+        return [
+          u*u*u*P0[0] + 3*u*u*t*P1[0] + 3*u*t*t*P2[0] + t*t*t*P3[0],
+          u*u*u*P0[1] + 3*u*u*t*P1[1] + 3*u*t*t*P2[1] + t*t*t*P3[1]
+        ];
+      }
+      function tangent(t) {
+        const u = 1 - t;
+        const dx = 3*u*u*(P1[0]-P0[0]) + 6*u*t*(P2[0]-P1[0]) + 3*t*t*(P3[0]-P2[0]);
+        const dy = 3*u*u*(P1[1]-P0[1]) + 6*u*t*(P2[1]-P1[1]) + 3*t*t*(P3[1]-P2[1]);
+        const len = Math.hypot(dx, dy) || 1;
+        return [dx / len, dy / len];
+      }
+
+      const stemSegments = Array.from({ length: 160 }, function (_, i) { return bezier(i / 159); });
+
+      const leafSpecs = [
+        { t: 0.10, side: -1, scale: 0.75 * S, young: false, angleOff: -0.20, pitch: 0.90, seed: 1 },
+        { t: 0.36, side:  1, scale: 0.85 * S, young: false, angleOff:  0.15, pitch: 0.88, seed: 2 },
+        { t: 0.50, side: -1, scale: 0.80 * S, young: false, angleOff: -0.15, pitch: 0.92, seed: 3 },
+        { t: 0.64, side:  1, scale: 0.82 * S, young: false, angleOff:  0.20, pitch: 0.86, seed: 4 },
+        { t: 0.88, side: -1, scale: 0.65 * S, young: true,  angleOff: -0.18, pitch: 0.92, seed: 5 }
+      ];
+
+      const leaves = leafSpecs.map(function (ls) {
+        const pt = bezier(ls.t);
+        const tan = tangent(ls.t);
+        const normal = [-tan[1] * ls.side, tan[0] * ls.side];
+        const petioleL = ls.scale * 0.32;
+        const petioleEnd = [pt[0] + normal[0] * petioleL, pt[1] + normal[1] * petioleL];
+        const angle = Math.atan2(normal[1], normal[0]) + ls.angleOff;
+        return {
+          stemBase: pt,
+          leafBase: petioleEnd,
+          scale: ls.scale,
+          young: ls.young,
+          pitch: ls.pitch,
+          seed: ls.seed,
+          cos: Math.cos(angle),
+          sin: Math.sin(angle)
+        };
+      });
+
+      // Grapes on Left Flank (next to ivy)
+      const grapeCx = padX + safeW * 0.22;
+      const grapeCy = padY + safeH * 0.54;
+      const grapeR = 0.040 * S;
+      const grapeTiers = [
+        { y: -0.20, count: 5, spread: 0.18 },
+        { y: -0.12, count: 5, spread: 0.16 },
+        { y: -0.04, count: 4, spread: 0.13 },
+        { y:  0.04, count: 4, spread: 0.11 },
+        { y:  0.12, count: 3, spread: 0.08 },
+        { y:  0.20, count: 2, spread: 0.05 },
+        { y:  0.27, count: 1, spread: 0.01 }
+      ];
+      const grapes = [];
+      grapeTiers.forEach(function (tier, ti) {
+        for (let i = 0; i < tier.count; i++) {
+          const frac = tier.count > 1 ? (i / (tier.count - 1) - 0.5) : 0;
+          const gx = grapeCx + frac * tier.spread * S + (rand() - 0.5) * 0.02 * S;
+          const gy = grapeCy + tier.y * S + (rand() - 0.5) * 0.015 * S;
+          const gz = (rand() * 0.5) + (ti * 0.1);
+          grapes.push({ x: gx, y: gy, r: grapeR * (0.94 + rand() * 0.12), z: gz });
+        }
+      });
+      grapes.sort(function (a, b) { return b.z - a.z; });
+
+      const tendrilPoints = [];
+      const tendrilOrigin = [grapeCx - 0.10 * S, grapeCy - 0.26 * S];
+      for (let t = 0; t <= 1; t += 0.01) {
+        const theta = -t * 3.5 * Math.PI;
+        const rad = (0.015 + 0.07 * t) * S;
+        tendrilPoints.push([
+          tendrilOrigin[0] - rad * Math.cos(theta),
+          tendrilOrigin[1] + t * 0.12 * S + rad * Math.sin(theta)
+        ]);
+      }
+
+      // Persimmon on Right Flank (next to ivy)
+      const persimCx = padX + safeW * 0.78;
+      const persimCy = padY + safeH * 0.55;
+      const persimRx = 0.27 * S;
+      const persimRy = 0.23 * S;
+      const persimCalyxBase = [persimCx, persimCy - persimRy * 0.85];
+      const persimCalyxLen = 0.11 * S;
+      const persimCalyxAngles = [-0.85 * Math.PI, -0.22 * Math.PI, 0.22 * Math.PI, 0.85 * Math.PI];
+
+      const pLeafBase = [persimCx + 0.10 * S, persimCy - 0.28 * S];
+      const pLeafScale = 0.32 * S;
+      const pLeafAngle = 0.55;
+      const pLeafCos = Math.cos(pLeafAngle);
+      const pLeafSin = Math.sin(pLeafAngle);
+
+      const light = [-0.45, -0.6, 0.65];
+      const lightLen = Math.hypot(light[0], light[1], light[2]);
+
+      hexGrid(w, h, grid, function (px, py) {
+        const k = rand();
+        const p = px * 0.011 + py * 0.007;
+
+        // A. Grapes
+        for (let i = 0; i < grapes.length; i++) {
+          const g = grapes[i];
+          const dx = px - g.x;
+          const dy = py - g.y;
+          const d2 = (dx*dx + dy*dy) / (g.r * g.r);
+          if (d2 < 1.0) {
+            const nz = Math.sqrt(1 - d2);
+            const nx = dx / g.r;
+            const ny = dy / g.r;
+            const diff = Math.max(0, (nx * light[0] + ny * light[1] + nz * light[2]) / lightLen);
+            const spec = Math.pow(diff, 7);
+            const rad = (grid / 2) * (0.86 - 0.48 * spec) * (0.85 + 0.25 * diff);
+            dots.push({ x: px, y: py, r: rad, g: 2, p: p, k: k });
+            return;
+          }
+        }
+
+        for (let i = 0; i < tendrilPoints.length - 1; i++) {
+          const tp = tendrilPoints[i];
+          if (Math.hypot(px - tp[0], py - tp[1]) < grid * 0.38) {
+            dots.push({ x: px, y: py, r: grid * 0.24, g: 4, p: p, k: k });
+            return;
+          }
+        }
+
+        // B. Persimmon
+        for (let i = 0; i < 4; i++) {
+          const a = persimCalyxAngles[i];
+          const tipX = persimCalyxBase[0] + Math.cos(a) * persimCalyxLen;
+          const tipY = persimCalyxBase[1] + Math.sin(a) * persimCalyxLen * 0.72;
+          const vx = tipX - persimCalyxBase[0];
+          const vy = tipY - persimCalyxBase[1];
+          const vlen2 = vx*vx + vy*vy;
+          const t = Math.max(0, Math.min(1, ((px - persimCalyxBase[0])*vx + (py - persimCalyxBase[1])*vy) / vlen2));
+          const normalDist = Math.hypot(px - (persimCalyxBase[0] + vx*t), py - (persimCalyxBase[1] + vy*t));
+          const lobeWidth = (0.045 * S) * Math.sin(Math.PI * t);
+          if (normalDist < lobeWidth && t > 0.06) {
+            const rad = (grid / 2) * (0.60 + 0.35 * (1 - t)) * (0.92 + k * 0.16);
+            dots.push({ x: px, y: py, r: rad, g: 3, p: p, k: k });
+            return;
+          }
+        }
+
+        const pu = (px - persimCx) / persimRx;
+        const pv = (py - persimCy) / persimRy;
+        const pAngle = Math.atan2(pv, pu);
+        const pCleft = 0.065 * Math.cos(4 * pAngle);
+        const pD4 = Math.pow(pu, 4) + Math.pow(pv, 4) + pCleft;
+        if (pD4 < 1.05) {
+          const d2 = Math.min(0.99, pu*pu + pv*pv);
+          const nz = Math.sqrt(1 - d2);
+          const nx = pu;
+          const ny = pv;
+          const diff = Math.max(0, (nx * light[0] + ny * light[1] + nz * light[2]) / lightLen);
+          const spec = Math.pow(diff, 6);
+          const tone = 0.42 + 0.50 * (1 - diff) + 0.28 * (1 - spec);
+          const r = (grid / 2) * Math.max(0.30, Math.min(1.0, tone)) * (0.92 + k * 0.16);
+          dots.push({ x: px, y: py, r: r, g: 1, p: p, k: k });
+          return;
+        }
+
+        const prx = px - pLeafBase[0];
+        const pry = py - pLeafBase[1];
+        const plx = (prx * pLeafCos + pry * pLeafSin) / pLeafScale;
+        const ply = (-prx * pLeafSin + pry * pLeafCos) / (pLeafScale * 0.55);
+        const plDist = Math.hypot(plx, ply);
+        if (plDist < 1.0 && plx > 0.05) {
+          const bladeW = Math.sin(Math.PI * Math.min(1, plx)) * 0.55;
+          if (Math.abs(ply) < bladeW) {
+            const midrib = Math.abs(ply) < 0.04;
+            if (midrib) {
+              dots.push({ x: px, y: py, r: (grid / 2) * 0.38, g: 5, p: p, k: k });
+              return;
+            }
+            const shade = 0.50 + 0.50 * (1 - Math.abs(ply) / bladeW);
+            const rad = (grid / 2) * (0.45 + 0.50 * shade) * (0.92 + k * 0.16);
+            dots.push({ x: px, y: py, r: rad, g: 1, p: p, k: k });
+            return;
+          }
+        }
+
+        // C. Ivy Leaves & Stem
+        for (let j = 0; j < leaves.length; j++) {
+          const leaf = leaves[j];
+          const rx = px - leaf.leafBase[0];
+          const ry = py - leaf.leafBase[1];
+          const lx = (rx * leaf.cos + ry * leaf.sin) / leaf.scale;
+          const ly = (-rx * leaf.sin + ry * leaf.cos) / (leaf.scale * leaf.pitch);
+
+          const dist = Math.hypot(lx, ly);
+          if (dist > 1.05) continue;
+
+          const deg = (Math.atan2(ly, lx) * 180) / Math.PI;
+          const bladeR = getIvyRadius(deg, leaf.seed);
+
+          if (dist <= bladeR && bladeR > 0.02) {
+            const midribD = Math.abs(ly);
+            const rad54 = (54 * Math.PI) / 180;
+            const lat1D = distToSegment(lx, ly, 0, 0, 0.86 * Math.cos(rad54), 0.86 * Math.sin(rad54));
+            const lat2D = distToSegment(lx, ly, 0, 0, 0.86 * Math.cos(-rad54), 0.86 * Math.sin(-rad54));
+            if (midribD < 0.028 || lat1D < 0.024 || lat2D < 0.024) {
+              dots.push({ x: px, y: py, r: (grid / 2) * 0.38, g: 5, p: p, k: k });
+              return;
+            }
+            const fBlade = dist / bladeR;
+            const shade = 0.45 + 0.55 * (1 - Math.pow(fBlade, 1.3));
+            const rad = (grid / 2) * (0.48 + 0.48 * shade) * (0.92 + k * 0.16);
+            dots.push({ x: px, y: py, r: rad, g: leaf.young ? 3 : 0, p: p, k: k });
+            return;
+          }
+
+          if (distToSegment(px, py, leaf.stemBase[0], leaf.stemBase[1], leaf.leafBase[0], leaf.leafBase[1]) < grid * 0.36) {
+            dots.push({ x: px, y: py, r: grid * 0.24, g: 4, p: p, k: k });
+            return;
+          }
+        }
+
+        let minD = Infinity;
+        for (let si = 0; si < stemSegments.length - 1; si++) {
+          const sd = distToSegment(px, py, stemSegments[si][0], stemSegments[si][1], stemSegments[si + 1][0], stemSegments[si + 1][1]);
+          if (sd < minD) minD = sd;
+        }
+        if (minD < grid * 0.38) {
+          dots.push({ x: px, y: py, r: grid * 0.28, g: 4, p: p, k: k });
         }
       });
     }
@@ -400,15 +1034,17 @@
       ctx.clearRect(0, 0, w, h);
 
       const dots = this.dots;
+      const numRamps = this.ramps.length;
       const buckets = this.ramps.map(function () {
         return Array.from({ length: BUCKETS }, function () { return []; });
       });
 
       for (let i = 0; i < dots.length; i++) {
         const d = dots[i];
+        const gIdx = d.g < numRamps ? d.g : 0;
         const wave = 0.5 + 0.5 * Math.sin(d.p - t * 0.0006 + d.k * 1.3);
         const bIdx = Math.min(BUCKETS - 1, Math.floor(wave * BUCKETS));
-        buckets[d.g][bIdx].push(d);
+        buckets[gIdx][bIdx].push(d);
       }
 
       for (let g = 0; g < buckets.length; g++) {
@@ -433,7 +1069,7 @@
     const canvas = document.getElementById('ivyFinialCanvas');
     if (!canvas) return;
 
-    const engine = new IvyHalftoneEngine(canvas);
+    const engine = new BotanicalHalftoneEngine(canvas);
 
     const io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -455,6 +1091,16 @@
     themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-mode']
+    });
+
+    window.addEventListener('hashchange', function () {
+      const nextSpecimen = pickSpecimen();
+      if (engine.specimen !== nextSpecimen) {
+        engine.specimen = nextSpecimen;
+        engine.theme();
+        engine.build();
+        engine.draw(performance.now());
+      }
     });
 
     function loop(t) {
