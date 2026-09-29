@@ -18,7 +18,7 @@
     pointer-events: none;
     user-select: none;
     z-index: 0;
-    opacity: 0.30; /* 30% subtlety */
+    opacity: 0.60; /* 30% subtlety */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -589,7 +589,7 @@
 
           const lDist = Math.hypot(lx, ly);
           if (lDist < 1.0 && lx > 0.05) {
-            const bladeW = Math.sin(Math.PI * Math.min(1, plx)) * 0.54;
+            const bladeW = Math.sin(Math.PI * Math.min(1, lx)) * 0.54;
             if (Math.abs(ly) < bladeW) {
               const midrib = Math.abs(ly) < 0.04;
               const secPhase = ((lx + 0.02) % 0.18) / 0.18;
